@@ -73,29 +73,32 @@
 </style>
 
 <script>
-  const kfcData = [
-    { label: "Человек", value: 2, color: "#76c7c0" },
-    { label: "Скорее человек", value: 1, color: "#91d4cb" },
-    { label: "Не знаю", value: 6, color: "#ccc" },
-    { label: "Скорее ИИ", value: 4, color: "#f9a67f" },
-    { label: "ИИ", value: 3, color: "#f78c6b" }
-  ];
+  document.addEventListener("DOMContentLoaded", function () {
+    const kfcData = [
+      { label: "Человек", value: 2, color: "#76c7c0" },
+      { label: "Скорее человек", value: 1, color: "#91d4cb" },
+      { label: "Не знаю", value: 6, color: "#ccc" },
+      { label: "Скорее ИИ", value: 4, color: "#f9a67f" },
+      { label: "ИИ", value: 3, color: "#f78c6b" }
+    ];
 
-  const maxVotes = Math.max(...kfcData.map(d => d.value));
-  const maxHeight = 140;
+    const maxVotes = Math.max(...kfcData.map(d => d.value));
+    const maxHeight = 140;
 
-  const chart = document.getElementById("kfc-chart");
-  kfcData.forEach(d => {
-    const height = (d.value / maxVotes) * maxHeight;
-    const column = document.createElement("div");
-    column.className = "bar-column";
-    column.innerHTML = `
-      <div class="bar" style="height:${height}px; background:${d.color}"></div>
-      <div class="label">${d.label}<br>(${d.value})</div>
-    `;
-    chart.appendChild(column);
+    const chart = document.getElementById("kfc-chart");
+    kfcData.forEach(d => {
+      const height = (d.value / maxVotes) * maxHeight;
+      const column = document.createElement("div");
+      column.className = "bar-column";
+      column.innerHTML = `
+        <div class="bar" style="height:${height}px; background:${d.color}"></div>
+        <div class="label">${d.label}<br>(${d.value})</div>
+      `;
+      chart.appendChild(column);
+    });
   });
 </script>
+  
   
 <body>
   <h1>Анализ текстов: человек или ИИ?</h1>
