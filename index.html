@@ -49,7 +49,54 @@
     }
   </style>
 </head>
+  
+<style>
+  .bar-chart {
+    display: flex;
+    align-items: flex-end;
+    height: 160px;
+    gap: 20px;
+    padding: 10px 0;
+    text-align: center;
+    justify-content: center;
+  }
+  .bar-column {
+    flex: 1;
+  }
+  .bar {
+    border-radius: 6px 6px 0 0;
+    margin-bottom: 5px;
+  }
+  .label {
+    font-size: 14px;
+  }
+</style>
 
+<script>
+  const kfcData = [
+    { label: "Человек", value: 2, color: "#76c7c0" },
+    { label: "Скорее человек", value: 1, color: "#91d4cb" },
+    { label: "Не знаю", value: 6, color: "#ccc" },
+    { label: "Скорее ИИ", value: 4, color: "#f9a67f" },
+    { label: "ИИ", value: 3, color: "#f78c6b" }
+  ];
+
+  const maxVotes = Math.max(...kfcData.map(d => d.value));
+  const maxHeight = 140;
+
+  const chart = document.getElementById("kfc-chart");
+  kfcData.forEach(d => {
+    const height = (d.value / maxVotes) * maxHeight;
+    const column = document.createElement("div");
+    column.className = "bar-column";
+    column.innerHTML = `
+      <div class="bar" style="height:${height}px; background:${d.color}"></div>
+      <div class="label">${d.label}<br>(${d.value})</div>
+    `;
+    chart.appendChild(column);
+  });
+</script>
+  
 <body>
   <h1>Анализ текстов: человек или ИИ?</h1>
 
@@ -57,37 +104,20 @@
       <h2>Симфония Вкуса: Ода Крылышкам KFC</h2>
       <p>Я порицаю диеты и ограничения... Крылышки KFC в кисло-сладком соусе – это не просто еда, это гастрономическое приключение...</p>
 
-        <div style="margin-top: 30px; text-align: center;">
-          <p style="margin-bottom: 15px;"><strong>Как голосовали участники</strong></p>
-  <div style="display: flex; align-items: flex-end; height: 160px; gap: 20px; padding: 10px 0 0 0; justify-content: center;">
-         
-       <!-- Человек (1 голос) -->
-      <div style="flex: 1; text-align: center;">
-        <div style="height: 20px; background: #76c7c0; border-radius: 6px 6px 0 0;"></div>
-        <p>Человек<br>(1)</p>
-      </div>
-      <!-- Скорее человек (0 голосов) -->
-      <div style="flex: 1; text-align: center;">
-        <div style="height: 0px; background: #91d4cb; border-radius: 6px 6px 0 0;"></div>
-        <p>Скорее человек<br>(0)</p>
-      </div>
-      <!-- Не знаю (5 голосов) -->
-      <div style="flex: 1; text-align: center;">
-        <div style="height: 100px; background: #ccc; border-radius: 6px 6px 0 0;"></div>
-        <p>Не знаю<br>(5)</p>
-      </div>
-      <!-- Скорее ИИ (7 голосов) -->
-      <div style="flex: 1; text-align: center;">
-        <div style="height: 140px; background: #f9a67f; border-radius: 6px 6px 0 0;"></div>
-        <p>Скорее ИИ<br>(7)</p>
-      </div>
-      <!-- ИИ (3 голоса) -->
-      <div style="flex: 1; text-align: center;">
-        <div style="height: 60px; background: #f78c6b; border-radius: 6px 6px 0 0;"></div>
-        <p>ИИ<br>(3)</p>
-      </div>
-    </div>
+      <!-- Гистограмма -->
+  <div style="margin-top: 20px; text-align: center;">
+    <p><strong>Гистограмма: как голосовали участники</strong></p>
+    <div class="bar-chart" id="kfc-chart"></div>
   </div>
+
+  <!-- Соотношение ИИ / человечности -->
+  <p style="margin-top: 20px;"><strong>Соотношение ИИ / человечности в тексте:</strong></p>
+  <div class="analysis-bar">
+    <div class="bar-human" style="width:40%; background:#76c7c0;">Человек 40%</div>
+    <div class="bar-ai" style="width:60%; background:#f78c6b;">ИИ 60%</div>
+  </div>
+</div>
+    
    
     <p><strong>Реальное соотношение ИИ / человечности в тексте:</strong></p>
        <div class="analysis-bar">
@@ -259,15 +289,56 @@
     
    <div class="text-section">
     <h2>Мухомор: загадки и опасности грибного мира</h2>
-    <p>Мухомор — это не просто гриб, а символ двойственности природы... Красота может сочетаться с опасностью.</p>
-    <img src="amanita.png" alt="Пример">
-    <p><strong>Соотношение ИИ / человечности в тексте:</strong></p>
-    <div class="analysis-bar">
-      <div class="bar-human" style="width:0.0%;">Человек 0.0%</div>
-      <div class="bar-ai" style="width:100.0%;">ИИ 100.0%</div>
+    <p>В мире грибов существует множество загадок и тайн, которые привлекают внимание как любителей природы, так и ученых. Одним из самых известных и одновременно опасных представителей грибного царства является мухомор. Почему же этот гриб вызывает такой интерес и страх? Давайте рассмотрим, что такое мухомор.
+
+Я считаю, что изучение мухомора и его свойств может помочь нам лучше понять не только грибной мир, но и важность осторожности в отношении природы. Обратимся к рассказу «Грибная охота» А. П. Чехова, где автор описывает встречу с мухомором. В этом произведении главный герой, увлеченный сбором грибов, находит мухомор и восхищается его красотой. Однако, в процессе размышлений он осознает, что этот гриб может быть опасен, и его восхищение сменяется тревогой. Этот эпизод показывает, как легко можно быть одураченным, когда речь идет о природе. Красота мухомора может затмить разум, и человек может не заметить опасности, скрывающейся за привлекательным внешним видом. Таким образом, Чехов подчеркивает важность осознания рисков, связанных с природой, и необходимости уважать ее законы.
+
+Двойственная природа мухомора всегда вызывала особый интерес у людей. С одной стороны, гриб смертельно ядовит для человека – его токсины могут вызвать серьезные нарушения в работе организма, от галлюцинаций до летального исхода. С другой стороны, в микродозах вещества, содержащиеся в мухоморе, используются в медицине для создания препаратов против ангины, ОРВ и даже мазей против варикоза.
+
+Опасность мухомора не стоит недооценивать. Его яркая окраска – это природный предупреждающий сигнал, который говорит: “Стой! Я опасен!”. Токсины, содержащиеся в грибе, могут вызвать серьезные нарушения в работе организма: от тошноты и галлюцинаций до тяжелых поражений печени и мозга. При отравлении мухомором счет идет на минуты – необходимо немедленно вызвать скорую помощь и принять меры по выведению яда из организма.
+
+В заключение, мухомор — это не просто гриб, а символ двойственности природы, где красота может сочетаться с опасностью. Изучая мухомор, мы учимся быть внимательными и осторожными, что является важным уроком для каждого из нас. Я считаю, что понимание этих аспектов поможет нам лучше взаимодействовать с окружающим миром и избежать неприятностей.</p>
+
+       <div style="margin-top: 30px; text-align: center;">
+          <p style="margin-bottom: 15px;"><strong>Как голосовали участники</strong></p>
+  <div style="display: flex; align-items: flex-end; height: 160px; gap: 20px; padding: 10px 0 0 0; justify-content: center;">
+         
+       <!-- Человек (8 голосов) -->
+      <div style="flex: 1; text-align: center;">
+        <div style="height: 46.6px; background: #76c7c0; border-radius: 6px 6px 0 0;"></div>
+        <p>Человек<br>(4)</p>
+      </div>
+      <!-- Скорее человек (1 голос) -->
+      <div style="flex: 1; text-align: center;">
+        <div style="height: 23.3px; background: #91d4cb; border-radius: 6px 6px 0 0;"></div>
+        <p>Скорее человек<br>(6)</p>
+      </div>
+      <!-- Не знаю (6 голосов) -->
+      <div style="flex: 1; text-align: center;">
+        <div style="height: 140px; background: #ccc; border-radius: 6px 6px 0 0;"></div>
+        <p>Не знаю<br>(5)</p>
+      </div>
+      <!-- Скорее ИИ (4 голоса) -->
+      <div style="flex: 1; text-align: center;">
+        <div style="height: 93.2px; background: #f9a67f; border-radius: 6px 6px 0 0;"></div>
+        <p>Скорее ИИ<br>(7)</p>
+      </div>
+      <!-- ИИ (3 голоса) -->
+      <div style="flex: 1; text-align: center;">
+        <div style="height: 69.9px; background: #f78c6b; border-radius: 6px 6px 0 0;"></div>
+        <p>ИИ<br>(3)</p>
+      </div>
     </div>
   </div>
-    
+   
+    <p><strong>Реальное соотношение ИИ / человечности в тексте:</strong></p>
+       <div class="analysis-bar">
+          <div class="bar-human" style="width:29.6%; background:#76c7c0;">Человек 29.6%</div>
+         <div class="bar-ai" style="width:70.4%; background:#f78c6b;">ИИ 70.4%</div>
+           </div>
+    </div>
+     
+  
    <div class="text-section">
     <h2>Проблема XXI века: искусственный интеллект</h2>
     <p>Вопрос который меня волнует: ИИ для человечества — это хорошо или плохо? Я считаю, что его нужно урегулировать в образовании...</p>
